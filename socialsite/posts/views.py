@@ -4,4 +4,4 @@ from django.views.generic import TemplateView
 # Create your views here.
 
 class PostListView(TemplateView):
-    template_name = 'post_list.html'
+    template_name = 'posts/post_list.html'

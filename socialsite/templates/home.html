@@ -1,4 +1,84 @@
-<div class='container'>
-    <h2>{{ welcome }}</h2>
-    <h1>Home Page.. comming</h1>
-</div>
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class='container-fluid'>
+
+    <section class='group_section'>
+      <div class='container-fluid'>
+        <div class='row row-no-gutters'>
+          <div class='col-4 mt-5'>
+              <div class="list-group">
+                  <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+                    <div class="d-flex w-100 justify-content-start">
+                        <img class="rounded float-start" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=50" class="rounded" alt="..." height="60" width="60">
+                         <h5 class='mx-auto'>List group item heading</h5>
+                    </div>
+                    <p class="mb-1">Some placeholder content in a paragraph.</p>
+                      <div class="row">
+                          <div class="col-6">
+                              <span class="badge bg-primary rounded-pill">14</span>
+                          </div>
+                           <div class="col-6">
+                              <small class="d-flex justify-content-end">3 days ago</small>
+                          </div>
+                      </div>
+                  </a>
+                </div>
+          </div>
+
+          <div class='col-8 mt-5'>
+              <div class="card">
+                  <div class="card-header">
+                      <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=50" class="rounded-circle" alt="..." width="" height="">
+                    {{ user.first_name }} > Django Developer's Network
+                    <hr>
+                    <div class="card-body">
+                      How can I save data of dynamic form field types. Like there is no fixed form field type. Users will select as per their convenience. How to make models for these type of forms?
+                    </div>
+                  </div>
+                  <div class="card-body pb-2">
+                    <div class="card" style="width: 42rem;">
+                      <img class="card-img-top" src="https://akm-img-a-in.tosshub.com/aajtak/images/story/202103/sadguru_2-sixteen_nine.png?size=948:533" class="card-img-top" alt="...">
+                    </div>
+                    <div class="card-body pb-0">
+                      <div class="row">
+                        <div class="col-6">
+                          <p>Likes- 23</p>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+                          <p>Comments- 10</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-muted">
+                      <div class="row">
+                          <div class="col-4">
+                              <i class="material-icons d-flex justify-content-start">thumb_up</i>
+                          </div>
+                          <div class="col-4">
+                              <i class="material-icons d-flex justify-content-center">comment</i>
+                          </div>
+                          <div class="col-4">
+                              <i class="material-icons d-flex justify-content-end">ios_share</i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+  </div>
+
+</br>
+</br>
+</br>
+{% endblock %}
