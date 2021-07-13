@@ -1,3 +1,48 @@
-<div class='container'>
-  <h1>Plz SignUp..</h1>
-</div>
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class='container mt-5'>
+    <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 35rem;">
+      <div class="card-header">
+        SignUp
+      </div>
+      <div class="card-body">
+        <div class="input-group mb-3">
+            <span class="input-group-text">First Name</span>
+            <input type="text" class="form-control" placeholder="First Name" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Last Name</span>
+            <input type="text" class="form-control" placeholder="Last Name" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Email</span>
+            <input type="text" class="form-control" placeholder="Enter your email address" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" >Mobile</span>
+            <input type="text" class="form-control" placeholder="Mobile" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Username</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" >Password</span>
+            <input type="text" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" >Confirm Password</span>
+            <input type="text" class="form-control" placeholder="Confirm Password" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+      </div>
+      <div class="card-footer text-muted">
+         <button type="submit" class="btn btn-primary mb-3">SignUp</button>
+      </div>
+    </div>
+  </div>
+</br>
+</br>
+
+{% endblock %}
