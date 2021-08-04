@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+
+  <section class="">
+    <div class="container">
+      <div class="card mb-3">
+        <img src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="card-img-top" alt="..." height="400" width="400">
+        <div class="card-body">
+          <div class="d-flex position-relative">
+            <img src="https://i.mdel.net/i/db/2018/8/950736/950736-500w.jpg" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="150" width="150">
+            <div>
+              <h5 class="mt-0"><strong>{{ user.first_name }} {{ user.last_name }}</strong></h5>
+              <p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class='col-12 mt-5'>
+    {% include 'post.html' %}
+  </div>
+</div>
+
+
+
+{% endblock %}

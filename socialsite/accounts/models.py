@@ -4,8 +4,8 @@ from django.db import models
 
 class Profile(models.Model):
     slug = models.SlugField(max_length=100)
-    profile_pic = models.ImageField(null=True, blank=True)
-    cover_pic = models.ImageField(null=True, blank=True)
+    profile_pic = models.ImageField(upload_to='images/user/profile/', null=True, blank=True)
+    cover_pic = models.ImageField(upload_to='images/user/profile/', null=True, blank=True)
     user_bio = models.TextField(null=True,blank=True, max_length=255)
     designation = models.CharField(blank=True,null=True, max_length=255)
     education = models.CharField(blank=True, null=True, max_length=255)

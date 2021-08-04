@@ -1,112 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class='container-fluid'>
 
-    <section class='group_section'>
+<div class="container-fluid">
+  <div class="row row-no-gutters">
+    <div class="col-lg-4 col-md-6 col-sm-12">
       <div class='container-fluid'>
-        <div class='row row-no-gutters'>
-          <div class='col-4 mt-5 shadow-lg p-3 mb-5 bg-body rounded shadow-lg p-3 mb-5 bg-body rounded'>
-              <div class='mb-3' align="center">
-                  <button type="button" class="btn btn-outline-primary d-flex justify-content-center"><i class="material-icons d-flex justify-content-center">add_circle</i> Create Group</button>
-              </div>
-              <div class='mb-3'>
-                  <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search Groups" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                  </form>
-              </div>
-              <div class="list-group">
-                  <a href="{% url 'group_list' %}" class="list-group-item list-group-item-action" aria-current="true">
-                    <div class="d-flex w-100 justify-content-start">
-                        <img  src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=50" class="rounded" alt="..." height="70" width="70">
-                         <h5 class='mx-auto'>Django Developer's Network</h5>
-                    </div>
-                    <p class="mb-1">Some placeholder content in a paragraph.</p>
-                      <div class="row">
-                          <div class="col-6">
-                              <span class="badge bg-primary rounded-pill">14</span>
-                          </div>
-                           <div class="col-6">
-                              <small class="d-flex justify-content-end">3 days ago</small>
-                          </div>
-                      </div>
-                  </a>
-                </div>
-          </div>
-
-          <div class='col-8 mt-5'>
-              <div class="card shadow-lg p-3 mb-5 bg-body rounded">
-                  <div class="card-header">
-                      <div class="row">
-                          <div class="col-12">
-                               <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                                  <div class="container-fluid">
-                                    <a class="navbar-brand" href="{% url 'group_list' %}"><img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=50" class="rounded" alt="..." width="" height=""></a>
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                                      <span class="navbar-toggler-icon"></span>
-                                    </button>
-                                    <div class="collapse navbar-collapse" id="navbarText">
-                                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                        <li class="nav-item">
-                                          <h5><a class="nav-link active" aria-current="page" href="{% url 'post_list' %}">{{ user.first_name }} {{ user.last_name }}</a></h5>
-                                        </li>
-                                      </ul>
-                                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                            <li class="nav-item d-flex justify-content-end">
-                                              <h2><a class="nav-link active" aria-current="page" href="{% url 'group_list' %}">Django Developer's Network</a></h2>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                  </div>
-                                </nav>
-                          </div>
-                      </div>
-                    <hr>
-                    <div class="card-body">
-                      How can I save data of dynamic form field types. Like there is no fixed form field type. Users will select as per their convenience. How to make models for these type of forms?
-                    </div>
+            <div class='row row-no-gutters'>
+              <div class='col-lg-12 col-sm-12 col-md-6 mt-5 shadow-lg p-3 mb-5 bg-body rounded shadow-lg p-3 mb-5 bg-body rounded'>
+                  <div class='mb-3' align="center">
+                      <button type="button" class="btn btn-outline-primary d-flex justify-content-center"><i class="material-icons d-flex justify-content-center">add_circle</i> Create Group</button>
                   </div>
-                  <div class="card-body pb-2">
-                    <div class="card" style="width: 60rem;">
-                      <img class="card-img-top" src="https://akm-img-a-in.tosshub.com/aajtak/images/story/202103/sadguru_2-sixteen_nine.png?size=948:533"  alt="...">
-                    </div>
-                    <div class="card-body pb-0">
-                      <div class="row">
-                        <div class="col-6">
-                          <p>Likes- 23</p>
-                        </div>
-                        <div class="col-6 d-flex justify-content-end">
-                          <p>Comments- 10</p>
-                        </div>
-                      </div>
-                    </div>
+                  <div class='mb-3'>
+                      <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search Groups" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                      </form>
                   </div>
-                  <div class="card-footer text-muted">
-                      <div class="row">
-                          <div class="col-4">
-                              <i class="material-icons d-flex justify-content-start">thumb_up</i>
+                    {% for group in groups %}
+                      <div class="list-group mb-3">
+                        <a href="{% url 'groups:group_posts' %}" class="list-group-item list-group-item-action" aria-current="true">
+                          <div class="d-flex w-100 justify-content-start">
+                              <img  src="{{ group.cover_pic.url }}" class="rounded" alt="..." height="70" width="70">
+                               <h5 class='mx-auto'>{{ group.groups_name }}</h5>
                           </div>
-                          <div class="col-4">
-                              <i class="material-icons d-flex justify-content-center">comment</i>
-                          </div>
-                          <div class="col-4">
-                              <i class="material-icons d-flex justify-content-end">ios_share</i>
-                          </div>
+                          <p class="mb-1">{{ group.about_group }}</p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </div>
+                                 <div class="col-6">
+                                    <small class="d-flex justify-content-end">3 days ago</small>
+                                </div>
+                            </div>
+                        </a>
                       </div>
-                  </div>
+                  {% endfor %}
               </div>
-          </div>
-
-
+            </div>
         </div>
-
+    </div>
+    <div class="col-lg-8 col-sm-12 col-md-6">
+      <div class="container-fluid">
+        <div class="row row-no-gutters">
+            <div class='col-lg-12 col-sm-12 col-md-6 mt-5'>
+                <div class="card group_list">
+                    <div class=row>
+                      {% for group in groups %}
+                        <div class="col-lg-6 col-sm-12 col-md-12 mt-4">
+                          <div class="card mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 25rem;">
+                            <img src="{{ group.cover_pic.url }}" class="card-img-top" alt="..." height="250" width="250">
+                            <div class="card-body">
+                              <h5 class="card-title">{{ group.groups_name }}</h5>
+                              <p class="card-text">20K members • 90 posts a day</p>
+                              <p class="card-text">{{ group.about_group }}</p>
+                              <a href="#" class="col-12 btn btn-secondary">Join Group</a>
+                            </div>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
       </div>
-
-
-    </section>
-
+    </div>
   </div>
+</div>
+
+
 
 </br>
 </br>

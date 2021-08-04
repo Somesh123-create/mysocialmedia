@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import ListView
+from groups.models import Groups
+from posts.models import Posts
+from comments.models import Comments
 
 
-class HomeView(TemplateView):
+class HomeView(ListView):
     template_name = 'home.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['welcome'] ='Welcome to home page..'
-        return context
+    model = Groups
+    context_object_name = 'groups'
+    ordering = ['-created_date']
