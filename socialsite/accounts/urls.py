@@ -4,10 +4,9 @@ from .views import *
 app_name = 'accounts'
 
 urlpatterns = [
-    path('sign_up/', SignUpView.as_view(), name='sign_up'),
-    path('Log_in/', LogInView.as_view(), name='Log_in'),
-    path('change_password/', ChangePasswordView.as_view(), name='change_password'),
-    path('user_post_list/', UserPostListView.as_view(), name='user_post_list'),
+    path('signup/', SignUpView.as_view(), name='sign_up'),
+    path('password_change/', ChangePasswordView.as_view(), name='password_change'),
+    path('user_post_list/<slug>', UserPostListView.as_view(), name='user_post_list'),
 
 ]
 

@@ -3,44 +3,53 @@
 {% block content %}
 
   <div class='container mt-5'>
-    <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 35rem;">
-      <div class="card-header">
-        SignUp
-      </div>
-      <div class="card-body">
-        <div class="input-group mb-3">
-            <span class="input-group-text">First Name</span>
-            <input type="text" class="form-control" placeholder="First Name" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text">Last Name</span>
-            <input type="text" class="form-control" placeholder="Last Name" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text">Email</span>
-            <input type="text" class="form-control" placeholder="Enter your email address" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" >Mobile</span>
-            <input type="text" class="form-control" placeholder="Mobile" aria-label="Username" aria-describedby="basic-addon1">
+    <form class="" method="post">
+      {% csrf_token %}
+      <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 35rem;">
+        <div class="card-header">
+          SignUp
         </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Username</span>
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" >Password</span>
-            <input type="text" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" >Confirm Password</span>
-            <input type="text" class="form-control" placeholder="Confirm Password" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
+        <div class="card-body">
+          <div class="input-group mb-3">
+              <span class="input-group-text" for="id_first_name">First Name</span>
+              <input type="text" class="form-control" placeholder="First Name" aria-label="Username" aria-describedby="basic-addon1" name="first_name" maxlength="150" id="id_first_name">
+            </div>
+          <div class="input-group mb-3">
+              <span class="input-group-text" for="id_last_name">Last Name</span>
+              <input type="text" class="form-control" placeholder="Last Name" aria-label="Username" aria-describedby="basic-addon1" name="last_name" maxlength="150" id="id_last_name">
+            </div>
+          <div class="input-group mb-3">
+              <span class="input-group-text" for="id_email">Email</span>
+              <input type="text" class="form-control" placeholder="Enter your email address" aria-label="Username" aria-describedby="basic-addon1" type="email" name="email" maxlength="254" id="id_email">
+            </div>
+          <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1" for="id_username">Username</span>
+              <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="username" maxlength="150" autofocus required id="id_username"><br>
+              <span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+            </div>
+          <div class="input-group mb-3">
+              <span class="input-group-text" for="id_password1">Password</span>
+              <input type="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1" type="password" name="password1" autocomplete="new-password" required id="id_password1"><br>
+              <span class="helptext">
+                <ul>
+                  <li>Your password can’t be too similar to your other personal information.</li>
+                  <li>Your password must contain at least 8 characters.</li>
+                  <li>Your password can’t be a commonly used password.</li>
+                  <li>Your password can’t be entirely numeric.</li>
+                </ul>
+              </span>
+            </div>
+          <div class="input-group mb-3">
+              <span class="input-group-text" for="id_password2">Confirm Password</span>
+              <input type="password" class="form-control" placeholder="Confirm Password" aria-label="Username" aria-describedby="basic-addon1" type="password" name="password2" autocomplete="new-password" required id="id_password2"><br>
+            </div>
+            <span class="helptext">Enter the same password as before, for verification.</span>
+        </div>
+        <div class="card-footer text-muted">
+           <button type="submit" class="btn btn-primary mb-3" name="button">Register</button>
+        </div>
       </div>
-      <div class="card-footer text-muted">
-         <button type="submit" class="btn btn-primary mb-3">SignUp</button>
-      </div>
-    </div>
+    </form>
   </div>
 </br>
 </br>

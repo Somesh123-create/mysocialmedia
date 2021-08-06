@@ -15,8 +15,6 @@ class PostListView(ListView):
 
     def get_context_data(self, **kwargs):
         all_groups = Groups.objects.all()
-        all_comments = Comments.objects.all()
         context = super().get_context_data(**kwargs)
         context['groups'] = all_groups
-        context['comments'] = all_comments
         return context

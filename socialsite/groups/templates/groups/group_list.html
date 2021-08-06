@@ -8,9 +8,11 @@
       <div class='container-fluid'>
             <div class='row row-no-gutters'>
               <div class='col-lg-12 col-sm-12 col-md-6 mt-5 shadow-lg p-3 mb-5 bg-body rounded shadow-lg p-3 mb-5 bg-body rounded'>
+                {% if user.is_authenticated %}
                   <div class='mb-3' align="center">
                       <button type="button" class="btn btn-outline-primary d-flex justify-content-center"><i class="material-icons d-flex justify-content-center">add_circle</i> Create Group</button>
                   </div>
+                {% endif %}
                   <div class='mb-3'>
                       <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search Groups" aria-label="Search">
@@ -19,7 +21,7 @@
                   </div>
                     {% for group in groups %}
                       <div class="list-group mb-3">
-                        <a href="{% url 'groups:group_posts' %}" class="list-group-item list-group-item-action" aria-current="true">
+                        <a href="{% url 'groups:group_detail' group.slug %}" class="list-group-item list-group-item-action" aria-current="true">
                           <div class="d-flex w-100 justify-content-start">
                               <img  src="{{ group.cover_pic.url }}" class="rounded" alt="..." height="70" width="70">
                                <h5 class='mx-auto'>{{ group.groups_name }}</h5>
@@ -48,15 +50,18 @@
                     <div class=row>
                       {% for group in groups %}
                         <div class="col-lg-6 col-sm-12 col-md-12 mt-4">
-                          <div class="card mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 25rem;">
-                            <img src="{{ group.cover_pic.url }}" class="card-img-top" alt="..." height="250" width="250">
-                            <div class="card-body">
-                              <h5 class="card-title">{{ group.groups_name }}</h5>
-                              <p class="card-text">20K members • 90 posts a day</p>
-                              <p class="card-text">{{ group.about_group }}</p>
-                              <a href="#" class="col-12 btn btn-secondary">Join Group</a>
+                            <div class="card mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 25rem;">
+                              <a href="{% url 'groups:group_detail' group.slug %}" class='group_name_bar' aria-current="true">
+                              <img src="{{ group.cover_pic.url }}" class="card-img-top" alt="..." height="250" width="250"></a>
+                              <div class="card-body">
+                                <h5 class="card-title">{{ group.groups_name }}</h5>
+                                <p class="card-text">20K members • 90 posts a day</p>
+                                <p class="card-text">{{ group.about_group }}</p>
+                                {% if user.is_authenticated %}
+                                <a href="#" class="col-12 btn btn-secondary">Join Group</a>
+                                {% endif %}
+                              </div>
                             </div>
-                          </div>
                         </div>
                       {% endfor %}
                     </div>

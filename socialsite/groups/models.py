@@ -1,7 +1,9 @@
 from django.db import models
+from accounts.models import Profile
 
 # Create your models here.
 class Groups(models.Model):
+    profile = models.ForeignKey(Profile, related_name='groups', on_delete=models.CASCADE)
     groups_name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=100)
     cover_pic = models.ImageField(upload_to='images/groups/', null=True, blank=True)

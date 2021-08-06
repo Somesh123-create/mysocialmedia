@@ -3,28 +3,131 @@
 {% block content %}
 <div class="container">
 
-  <section class="">
-    <div class="container">
-      <div class="card mb-3">
-        <img src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="card-img-top" alt="..." height="400" width="400">
-        <div class="card-body">
-          <div class="d-flex position-relative">
-            <img src="https://i.mdel.net/i/db/2018/8/950736/950736-500w.jpg" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="150" width="150">
-            <div>
+<section class="">
+  <div class="container">
+    <div class="card mb-3">
+      {%  if my_profile.cover_pic.url %}
+        <img src="{{ my_profile.cover_pic.url }}" class="card-img-top" alt="..." height="400" width="400">
+      {% else %}
+        <img src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202005/keyboard-5017973_1920.jpeg?NxXWUVUGjpEzDYZAbAUmrfWMvpSA0qPE&size=770:433" class="card-img-top" alt="..." height="400" width="400">
+      {% endif %}
+      <div class="card-body">
+        <div class="d-flex position-relative">
+          {%  if my_profile.profile_pic.url %}
+            <img src="{{ my_profile.profile_pic.url }}" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="150" width="150">
+          {% else %}
+            <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="150" width="150">
+          {% endif %}
+          <div>
+            {% if my_profile %}
+            <h5 class="mt-0"><strong>{{ my_profile.user.first_name }} {{ my_profile.user.last_name }}</strong></h5>
+            <p>{{ my_profile.user_bio }}.</p>
+            {% else %}
               <h5 class="mt-0"><strong>{{ user.first_name }} {{ user.last_name }}</strong></h5>
-              <p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-
-            </div>
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
-  </section>
-
-
-  <div class='col-12 mt-5'>
-    {% include 'post.html' %}
   </div>
+</section>
+
+
+<div class='col-12 mt-5'>
+
+<!-- posts list starts -->
+{% for post in my_profile.my_posts.all %}
+
+<div class="card shadow-lg p-3 mb-5 bg-body rounded">
+  <div class="card-header">
+      <div class="row">
+          <div class="col-lg-12 col-sm-12">
+               <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                  <div class="container-fluid">
+                    <a class="navbar-brand" href=""><img src="{{ post.profile.profile_pic.url }}" class="rounded" alt="..." width="70" height="70"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarText">
+                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                          <h5><a class="nav-link active" aria-current="page" href="">{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</a></h5>
+                          <p class="card-text"><small class="text-muted">{{ post.post_created }}</small></p>
+                        </li>
+                      </ul>
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item d-flex justify-content-end">
+                              <h2><a class="nav-link active" aria-current="page" href="">{{ post.groups_name.groups_name }}</a></h2>
+                            </li>
+                        </ul>
+                    </div>
+                  </div>
+                </nav>
+          </div>
+      </div>
+    <hr>
+    <div class="card-body">
+      <p class="card-text">{{ post.post_body }}</p>
+    </div>
+  </div>
+  <div class="card-body pb-2">
+    <div class="card mb-3">
+      <img src="{{ post.post_image.url }}" class="card-img-top" alt="...">
+    </div>
+
+    <div class="card-body pb-0">
+      <div class="row">
+        <div class="col-6">
+          <p>Likes- 1</p>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+          <p>Comments- 10</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<hr>
+  {% if user.is_authenticated %}
+    <div class="card-footer text-muted">
+        <div class="row">
+            <div class="col-4">
+                <i class="material-icons d-flex justify-content-start">thumb_up</i>
+            </div>
+            <div class="col-4">
+                <i class="material-icons d-flex justify-content-center">comment</i>
+            </div>
+            <div class="col-4">
+                <i class="material-icons d-flex justify-content-end">ios_share</i>
+            </div>
+        </div>
+    </div>
+  {% endif %}
+
+  {% if user.is_authenticated %}
+    <div class="form-floating mt-4">
+      <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+      <label for="floatingTextarea">Write a public comment...</label>
+    </div>
+  {% endif %}
+
+  <!-- comment section -->
+  {% for comment in post.comments.all %}
+    <div class="d-flex justify-content-start comment-items">
+        <img src="{{ comment.profile.profile_pic.url }}" class="rounded-circle" alt="..." width='60' height='60'>
+        <div class="ms-2 me-auto shadow-lg p-3 mb-5 bg-body rounded-pill mt-5">
+          <div class="fw-bold">{{ comment.profile.user.first_name }} {{ comment.profile.user.last_name }}</div>
+          {{ comment.body }}
+          <div class="ms-3 me-auto  mb-1">
+            <span>Like . Reply . {{ comment.date_created }}</span>
+          </div>
+        </div>
+    </div>
+  {% endfor %}
+  <!-- comment section ends -->
+</div>
+{% endfor %}
+<!-- posts list ends -->
+</div>
 </div>
 
 
