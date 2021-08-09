@@ -50,7 +50,7 @@
                       <div class="collapse navbar-collapse" id="navbarText">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                            <h5><a class="nav-link active" aria-current="page" href="{% url 'accounts:user_post_list' post.profile.slug %}">{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</a></h5>
+                            <h5><a class="nav-link active" aria-current="page" href="{% url 'accounts:user_post_list' post.profile.user.id %}">{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</a></h5>
                             <p class="card-text"><small class="text-muted">{{ post.post_created }}</small></p>
                           </li>
                         </ul>

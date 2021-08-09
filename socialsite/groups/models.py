@@ -15,4 +15,4 @@ class Groups(models.Model):
         return self.groups_name
 
     def group_tag(self):
-        return self.about_group[:25]
+        return self.about_group[:50]

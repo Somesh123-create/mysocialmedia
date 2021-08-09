@@ -31,15 +31,20 @@
                     Account
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                    {% if user.is_authenticated and user.profile.slug %}
-                        <li><a class="dropdown-item" href="{% url 'accounts:user_post_list' user.profile.slug %}">
+                    {% if user.is_authenticated and user.id %}
+                        <li><a class="dropdown-item" href="{% url 'accounts:user_post_list' user.id %}">
                           <button type="button" class="btn btn-light">
-                            <img src="https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png" class="rounded-circle" alt="..." height="25" width="25">
+                            {% if user.profile.profile_pic %}
+                            <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" alt="..." height="25" width="25">
+                            {% else %}
+                            <img src="{% static 'profile_ex/coverprofile.jpg' %}" class="rounded-circle" alt="..." height="25" width="25">
+                            {% endif %}
                             {{ user.first_name }} {{ user.last_name }}
                           </button>
                         </a></li>
-                        <li><a class="dropdown-item" href="{% url 'accounts:user_post_list' user.profile.slug%}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:user_post_list' user.id %}">Profile</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:user_settings' %}">Settings</a></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                   {% elif user.is_authenticated %}
                     <li><a class="dropdown-item" href="">
@@ -48,7 +53,8 @@
                         {{ user.first_name }} {{ user.last_name }}
                       </button>
                     </a></li>
-                    <li><a class="dropdown-item" href="">Edit Profile</a></li>
+                      <li><a class="dropdown-item" href="{% url 'accounts:create_profile' user.username %}">Create Profile</a></li>
+                      <li><a class="dropdown-item" href="{% url 'accounts:user_settings' %}">Settings</a></li>
                       <li><a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a></li>
                       <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                   {% else %}

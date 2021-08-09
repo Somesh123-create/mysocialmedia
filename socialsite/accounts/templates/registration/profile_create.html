@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+  <h1 align=center>Profile Create..</h1>
+  {% if user.is_authenticated %}
+    <form class=""  method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" name="button">Create Profile</button>
+    </form>
+  {% else %}
+    you're not allowed here...
+  {% endif%}
+</div>
+<script>
+  var name = '{{ user.id }}';
+  document.getElementById("somesh").value = name;
+</script>
+{% endblock %}

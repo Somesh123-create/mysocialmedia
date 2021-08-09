@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class='container mt-5'>
+  <form class="" method="post">
+    {% csrf_token %}
+    <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 35rem;">
+      <div class="card-header">
+        Edit Settings
+      </div>
+      <div class="card-body">
+        {{ form }}
+      </div>
+      <div class="card-footer text-muted">
+         <button type="submit" class="btn btn-primary mb-3" name="button">Update Settings</button>
+      </div>
+    </div>
+  </form>
+</div>
+</br>
+</br>
+
+{% endblock %}

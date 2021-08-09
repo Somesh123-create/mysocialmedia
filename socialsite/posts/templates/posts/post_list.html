@@ -8,9 +8,11 @@
       <div class='container-fluid'>
             <div class='row row-no-gutters'>
               <div class='col-lg-12 col-sm-12 col-md-6 mt-5 shadow-lg p-3 mb-5 bg-body rounded shadow-lg p-3 mb-5 bg-body rounded'>
+                {% if user.is_authenticated %}
                   <div class='mb-3' align="center">
                       <button type="button" class="btn btn-outline-primary d-flex justify-content-center"><i class="material-icons d-flex justify-content-center">add_circle</i> Create Group</button>
                   </div>
+                {% endif %}
                   <div class='mb-3'>
                       <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search Groups" aria-label="Search">
@@ -41,7 +43,7 @@
         </div>
     </div>
 {% if posts %}
-    <div class='col-lg-8 col-sm-12 col-md-6 mt-5'>
+    <div class='col-lg-6 col-sm-12 col-md-6 mt-5'>
         <section>
           <!-- posts list starts -->
             {% for post in posts %}
@@ -58,13 +60,13 @@
                                   <div class="collapse navbar-collapse" id="navbarText">
                                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                       <li class="nav-item">
-                                        <h5><a class="nav-link active" aria-current="page" href="{% url 'accounts:user_post_list' post.profile.slug %}">{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</a></h5>
+                                        <h5><a class="nav-link active" aria-current="page" href="{% url 'accounts:user_post_list' post.profile.user.id %}">{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</a></h5>
                                         <p class="card-text"><small class="text-muted">Last updated {{ post.post_created }}</small></p>
                                       </li>
                                     </ul>
                                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                           <li class="nav-item d-flex justify-content-end">
-                                            <h2><a class="nav-link active" aria-current="page" href="">{{ post.groups_name.groups_name }}</a></h2>
+                                            <h3><a class="nav-link active" aria-current="page" href="{% url 'groups:group_detail' post.groups_name.slug %}">{{ post.groups_name.groups_name }}</a></h3>
                                           </li>
                                       </ul>
                                   </div>

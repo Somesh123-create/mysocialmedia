@@ -1,42 +1,60 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="container">
 
+<div class="container">
 <section class="">
   <div class="container">
     <div class="card mb-3">
-      {%  if my_profile.cover_pic.url %}
-        <img src="{{ my_profile.cover_pic.url }}" class="card-img-top" alt="..." height="400" width="400">
+      {% if my_profile.profile.cover_pic %}
+        <img src="{{ my_profile.profile.cover_pic.url }}" class="card-img-top" alt="..." height="400" width="400">
       {% else %}
-        <img src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202005/keyboard-5017973_1920.jpeg?NxXWUVUGjpEzDYZAbAUmrfWMvpSA0qPE&size=770:433" class="card-img-top" alt="..." height="400" width="400">
+        <img src="{% static 'profile_ex/coverprofile.jpg' %}" class="card-img-top" alt="..." height="400" width="400">
       {% endif %}
       <div class="card-body">
         <div class="d-flex position-relative">
-          {%  if my_profile.profile_pic.url %}
-            <img src="{{ my_profile.profile_pic.url }}" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="150" width="150">
+          {%  if my_profile.profile.profile_pic %}
+            <img src="{{ my_profile.profile.profile_pic.url }}" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="150" width="150">
           {% else %}
-            <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="150" width="150">
+            <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="150" width="150">
           {% endif %}
           <div>
-            {% if my_profile %}
-            <h5 class="mt-0"><strong>{{ my_profile.user.first_name }} {{ my_profile.user.last_name }}</strong></h5>
-            <p>{{ my_profile.user_bio }}.</p>
+              <h5 class="mt-0"><strong>{{ my_profile.first_name }} {{ my_profile.last_name }}</strong></h5>
+
+            {% if my_profile.profile.user_bio %}
+            <p>{{ my_profile.profile.user_bio }}.</p>
             {% else %}
-              <h5 class="mt-0"><strong>{{ user.first_name }} {{ user.last_name }}</strong></h5>
+            <h2>Noo bio..</h2>
             {% endif %}
+
+              {% if user.id == my_profile.profile.user.id %}
+                <a href="{% url 'accounts:edit_profile' user.profile.slug %}" class="btn btn-secondary"><i class="material-icons">edit</i> Update Profile</a>
+              {% else %}
+                <a href="{% url 'accounts:create_profile' user.username %}" class="btn btn-secondary"><i class="material-icons">edit</i> Edit Profile</a>
+              {% endif %}
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+</div>
 
 
-<div class='col-12 mt-5'>
+
+
+
+<!-- <div class="container">
+
+
+
+
+<div class='col-12 mt-5'> -->
 
 <!-- posts list starts -->
-{% for post in my_profile.my_posts.all %}
+<!-- {% for post in my_profile.my_posts.all %}
 
 <div class="card shadow-lg p-3 mb-5 bg-body rounded">
   <div class="card-header">
@@ -57,7 +75,7 @@
                       </ul>
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item d-flex justify-content-end">
-                              <h2><a class="nav-link active" aria-current="page" href="">{{ post.groups_name.groups_name }}</a></h2>
+                              <h2><a class="nav-link active" aria-current="page" href="{% url 'groups:group_detail' post.groups_name.slug %}">{{ post.groups_name.groups_name }}</a></h2>
                             </li>
                         </ul>
                     </div>
@@ -108,10 +126,10 @@
       <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
       <label for="floatingTextarea">Write a public comment...</label>
     </div>
-  {% endif %}
+  {% endif %} -->
 
   <!-- comment section -->
-  {% for comment in post.comments.all %}
+  <!-- {% for comment in post.comments.all %}
     <div class="d-flex justify-content-start comment-items">
         <img src="{{ comment.profile.profile_pic.url }}" class="rounded-circle" alt="..." width='60' height='60'>
         <div class="ms-2 me-auto shadow-lg p-3 mb-5 bg-body rounded-pill mt-5">
@@ -122,13 +140,13 @@
           </div>
         </div>
     </div>
-  {% endfor %}
+  {% endfor %} -->
   <!-- comment section ends -->
-</div>
-{% endfor %}
+<!-- </div>
+{% endfor %} -->
 <!-- posts list ends -->
-</div>
-</div>
+<!-- </div>
+</div> -->
 
 
 
