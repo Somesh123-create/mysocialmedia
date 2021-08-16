@@ -4,5 +4,15 @@
 
 <h1 align=center>Add post...</h1>
 
+<div class="">
+  <form class=""  method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" name="button">Create Post</button>
+
+  </form>
+
+</div>
+
 
 {% endblock %}

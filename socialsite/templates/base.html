@@ -23,51 +23,42 @@
         <div class="d-flex justify-content-start">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-               <h5><a class="nav-link active" aria-current="page" href="{% url 'posts:post_list' %}">Feeds</a></h3>
-             </li>
+              {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Account
-                  </a>
+                    {% if user.profile.profile_pic %}
+                      <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" alt="..." height="50" width="50">
+                    {% endif %}
+                        {{ user.first_name }}
+                    </a>
                   <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                    {% if user.is_authenticated and user.id %}
                         <li><a class="dropdown-item" href="{% url 'accounts:user_post_list' user.id %}">
                           <button type="button" class="btn btn-light">
                             {% if user.profile.profile_pic %}
-                            <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" alt="..." height="25" width="25">
+                              <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" alt="..." height="25" width="25">
                             {% else %}
-                            <img src="{% static 'profile_ex/coverprofile.jpg' %}" class="rounded-circle" alt="..." height="25" width="25">
+                              <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="25" width="25">
                             {% endif %}
                             {{ user.first_name }} {{ user.last_name }}
                           </button>
-                        </a></li>
+                        </a>
                         <li><a class="dropdown-item" href="{% url 'accounts:user_post_list' user.id %}">Profile</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:user_settings' %}">Settings</a></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                  {% elif user.is_authenticated %}
-                    <li><a class="dropdown-item" href="">
-                      <button type="button" class="btn btn-light">
-                        <img src="https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png" class="rounded-circle" alt="..." height="25" width="25">
-                        {{ user.first_name }} {{ user.last_name }}
-                      </button>
-                    </a></li>
-                      <li><a class="dropdown-item" href="{% url 'accounts:create_profile' user.username %}">Create Profile</a></li>
-                      <li><a class="dropdown-item" href="{% url 'accounts:user_settings' %}">Settings</a></li>
-                      <li><a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a></li>
-                      <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                  {% else %}
-                    <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                    <li><a class="dropdown-item" href="{% url 'accounts:sign_up' %}">Register</a></li>
-                  {% endif %}
-                  </ul>
-                </li>
-              </ul>
+                      </li>
+                 </ul>
+            </li>
+            {% else %}
+              <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:sign_up' %}">Register</a></li>
+            {% endif %}
+            </ul>
           </div>
         </div>
       </div>
     </nav>
+
 
         {% block content %}
 

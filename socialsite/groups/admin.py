@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Groups
+from .models import Groups, GroupMember
 # Register your models here.
 
-admin.site.register(Groups)
+
+class GroupAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug':('groups_name',)}
+
+admin.site.register(Groups, GroupAdmin)
+
+admin.site.register(GroupMember)

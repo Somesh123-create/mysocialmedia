@@ -115,7 +115,7 @@ class UserSettingsEditForm(UserChangeForm):
 class UserProfileCreateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('user', 'slug', 'profile_pic', 'cover_pic', 'user_bio', 'designation', 'education', 'marital_status', 'hobbies', 'location', 'mobile')
+        fields = ('user', 'profile_pic', 'cover_pic', 'user_bio', 'designation', 'education', 'marital_status', 'hobbies', 'location', 'mobile')
 
     user = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control input-group-text',

@@ -1,134 +1,264 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-
 <div class="container">
+</br>
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+      <div class="alert alert-success d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        <div>
+          {{ message }}
+        </div>
+      </div>
+      </li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+
 
   <section class="">
     <div class="container">
       <div class="card mb-3">
-        <img src="{{ groups.cover_pic.url }}" class="card-img-top" alt="..." height="400" width="400">
+        {% if groups.cover_pic %}
+          <img src="{{ groups.cover_pic.url }}" class="card-img-top" alt="..." height="400" width="400">
+        {% else %}
+          <img src="{% static 'profile_ex/coverprofile.jpg' %}" class="card-img-top" alt="..." height="400" width="400">
+        {% endif %}
         <div class="card-body">
           <h5 class="card-title">{{ groups.groups_name }}</h5>
+          <p class="card-text">Public group -- {{ groups.total_members }} members.</p>
           <div class="d-flex justify-content-end">
             {% if user.is_authenticated %}
               <div class="btn-group">
                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Joined
+                  Group Settings
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Join Group</a></li>
-                  <li><a class="dropdown-item" href="#">Leave Group</a></li>
+                  {% if groups.user.id == user.id %}
+                    <li><a class="dropdown-item" href="{% url 'groups:group_update' groups.slug %}">Upadate Group</a></li>
+                  {% endif %}
+                  {% if user in groups.members.all %}
+                    <li><a class="dropdown-item" href="{% url 'groups:leave_group' groups.slug %}">Leave Group</a></li>
+                  {% endif %}
                 </ul>
               </div>
             {% endif %}
           </div>
-          <p class="card-text">Public group·11 members.</p>
         </div>
       </div>
     </div>
   </section>
 
+<div class="container">
+  <section>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Posts</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Members</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">About</button>
+        </li>
+     </ul>
+      <div class="tab-content" id="myTabContent">
+
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div class="container">
+            {% if user in groups.members.all  %}
+            <div class="d-grid gap-2 mt-3">
+              <a href="{% url 'groups:create_grouppost' groups.slug %}" class="btn btn-primary" >Create Post</a>
+            </div>
+            {% else %}
+            <div class="d-grid gap-2 mt-3">
+              <a class="btn btn-primary" href="{% url 'groups:join_group' groups.slug %}">Join Group</a>
+            </div>
+            {% endif %}
+
+
+            {% if not groups.posts.all %}
+            <p>No Posts Yet.....</p>
+            {% else %}
+            {% for post in groups.posts.all %}
+            <div class="card shadow-lg p-3 mb-5 bg-body rounded mt-4">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                             <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                                <div class="container-fluid">
+                                  <a class="navbar-brand" href="">
+                                    {% if post.user.profile.profile_pic %}
+                                      <img src="{{ post.user.profile.profile_pic.url }}" class="rounded" alt="..." width="70" height="70">
+                                      {% else %}
+                                        <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." width="70" height="70">
+                                      {% endif %}
+                                  </a>
+                                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                  </button>
+                                  <div class="collapse navbar-collapse" id="navbarText">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                      <li class="nav-item">
+                                        <h5><a class="nav-link active" aria-current="page" href="{% url 'accounts:user_post_list' post.user.id %}">{{ post.user.first_name }} {{ post.user.last_name }}</a></h5>
+                                        <p class="card-text"><small class="text-muted">{{ post.post_created }}</small></p>
+                                      </li>
+                                    </ul>
+                                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                          <li class="nav-item d-flex justify-content-end">
+                                          </li>
+                                      </ul>
+                                  </div>
+                                </div>
+                              </nav>
+                        </div>
+                    </div>
+                  <hr>
+                  <div class="card-body">
+                    <p class="card-text">{{ post.post_body }}</p>
+                  </div>
+                </div>
+                <div class="card-body pb-2">
+                  {% if post.post_image %}
+                  <div class="card mb-3">
+                    <img src="{{ post.post_image.url }}" class="card-img-top" alt="...">
+                  </div>
+                  {% endif %}
+
+                  <div class="card-body pb-0">
+                    <div class="row">
+                      <div class="col-6">
+                        <p>Likes- 1</p>
+                      </div>
+                      <div class="col-6 d-flex justify-content-end">
+                        <p>Comments- 10</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% if user.is_authenticated %}
+                  <div class="card-footer text-muted">
+                      <div class="row">
+                          <div class="col-4">
+                              <i class="material-icons d-flex justify-content-start">thumb_up</i>
+                          </div>
+                          <div class="col-4">
+                              <i class="material-icons d-flex justify-content-center">comment</i>
+                          </div>
+                          <div class="col-4">
+                              <i class="material-icons d-flex justify-content-end">ios_share</i>
+                          </div>
+                      </div>
+                  </div>
+                {% endif %}
+                {% if user.is_authenticated %}
+                  <div class="form-floating mt-4">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Write a public comment...</label>
+                  </div>
+                {% endif %}
+                <hr>
+                <!-- comment section -->
+                {% for comment in post.comments.all  %}
+                  <div class="d-flex justify-content-start comment-items">
+                    {% if comment.user.profile.profile_pic %}
+                      <img src="{{ comment.user.profile.profile_pic.url }}" class="rounded-circle" alt="..." width='60' height='60'>
+                      {% else %}
+                        <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." width='60' height='60'>
+                      {% endif %}
+                      <div class="ms-2 me-auto shadow-lg p-3 mb-5 bg-body rounded-pill mt-5">
+                        <div class="fw-bold">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
+                        {{ comment.body }}
+                        <div class="ms-3 me-auto  mb-1">
+                          <span>Like . Reply . {{ comment.date_created }}</span>
+                        </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+                <!-- comment section ends -->
+            </div>
+            {% endfor %}
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      </br></br>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="container">
+              <div class="row mt-4">
+                <div class="col-lg-12 col-sm-12 col-md-6">
+                  <div class="card mb-3 mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="max-width: 540px;">
+                    <div class="card-header">
+                      Group Members
+                    </div>
+                    <strong align=center>Group Admin -- {{ groups.user.first_name }} {{ groups.user.last_name }}</strong>
+                    {% for members in groups.members.all  %}
+                    <div class="row g-0 mt-3">
+                      <div class="col-md-4">
+                        {% if members.profile.profile_pic %}
+                        <img src="{{ members.profile.profile_pic.url }}" class="rounded-circle" alt="..." height=120 width="120">
+                        {% endif %}
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">{{ members.first_name }} {{ members.last_name }}</h5>
+                          {% if members.profile.user_bio %}
+                          <p class="card-text">{{members.profile.user_bio}}</p>
+                          {% endif %}
+                          {% if members.profile.designation %}
+                          <p class="card-text"><small class="text-muted">{{ members.profile.designation }}</small></p>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <hr>
+              </div>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+          <div class="row mt-4">
+            <div class="col-lg-12 col-sm-12 col-md-6">
+              <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 39rem;">
+                <div class="card-header">
+                  About This Group
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ groups.groups_name }}</h5>
+                  <p>{{ groups.type_group }}</p>
+                  <p class="card-text">{{ groups.about_group }}</p>
+                  <p class="card-text">Group Created:- {{ groups.created_date }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+</div>
+
+
 
 
 <section>
 <!-- posts list starts -->
-{% if not groups.posts.all %}
-<p>No Posts Yet.....</p>
-{% else %}
-{% for post in groups.posts.all %}
-<div class="card shadow-lg p-3 mb-5 bg-body rounded">
-    <div class="card-header">
-        <div class="row">
-            <div class="col-lg-12 col-sm-12">
-                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-                      <a class="navbar-brand" href=""><img src="{{ post.profile.profile_pic.url }}" class="rounded" alt="..." width="70" height="70"></a>
-                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                      </button>
-                      <div class="collapse navbar-collapse" id="navbarText">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                          <li class="nav-item">
-                            <h5><a class="nav-link active" aria-current="page" href="{% url 'accounts:user_post_list' post.profile.user.id %}">{{ post.profile.user.first_name }} {{ post.profile.user.last_name }}</a></h5>
-                            <p class="card-text"><small class="text-muted">{{ post.post_created }}</small></p>
-                          </li>
-                        </ul>
-                          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                              <li class="nav-item d-flex justify-content-end">
-                              </li>
-                          </ul>
-                      </div>
-                    </div>
-                  </nav>
-            </div>
-        </div>
-      <hr>
-      <div class="card-body">
-        <p class="card-text">{{ post.post_body }}</p>
-      </div>
-    </div>
-    <div class="card-body pb-2">
-      <div class="card mb-3">
-        <img src="{{ post.post_image.url }}" class="card-img-top" alt="...">
-      </div>
 
-      <div class="card-body pb-0">
-        <div class="row">
-          <div class="col-6">
-            <p>Likes- 1</p>
-          </div>
-          <div class="col-6 d-flex justify-content-end">
-            <p>Comments- 10</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    {% if user.is_authenticated %}
-      <div class="card-footer text-muted">
-          <div class="row">
-              <div class="col-4">
-                  <i class="material-icons d-flex justify-content-start">thumb_up</i>
-              </div>
-              <div class="col-4">
-                  <i class="material-icons d-flex justify-content-center">comment</i>
-              </div>
-              <div class="col-4">
-                  <i class="material-icons d-flex justify-content-end">ios_share</i>
-              </div>
-          </div>
-      </div>
-    {% endif %}
-    {% if user.is_authenticated %}
-      <div class="form-floating mt-4">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-        <label for="floatingTextarea">Write a public comment...</label>
-      </div>
-    {% endif %}
-    <hr>
-    <!-- comment section -->
-    {% for comment in post.comments.all  %}
-      <div class="d-flex justify-content-start comment-items">
-          <img src="{{ comment.profile.profile_pic.url }}" class="rounded-circle" alt="..." width='60' height='60'>
-          <div class="ms-2 me-auto shadow-lg p-3 mb-5 bg-body rounded-pill mt-5">
-            <div class="fw-bold">{{ comment.profile.user.first_name }} {{ comment.profile.user.last_name }}</div>
-            {{ comment.body }}
-            <div class="ms-3 me-auto  mb-1">
-              <span>Like . Reply . {{ comment.date_created }}</span>
-            </div>
-          </div>
-      </div>
-      {% endfor %}
-    <!-- comment section ends -->
-</div>
-{% endfor %}
-{% endif %}
 <!-- posts list ends -->
 </section>
 
 
-
 </div>
+
+
+
 
 
 {% endblock %}

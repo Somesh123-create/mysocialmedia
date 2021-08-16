@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, CreateView
 from .models import Posts
 from groups.models import Groups
 from comments.models import Comments
+from .forms import PostCreateForm
 import datetime
 
 # Create your views here.
@@ -18,3 +19,9 @@ class PostListView(ListView):
         context = super().get_context_data(**kwargs)
         context['groups'] = all_groups
         return context
+
+
+class PostCreateView(CreateView):
+    model = Posts
+    form_class = PostCreateForm
+    template_name = 'posts/create_post.html'

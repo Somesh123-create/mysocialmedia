@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    slug = models.SlugField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
     profile_pic = models.ImageField(upload_to='images/user/profile/', null=True, blank=True)
     cover_pic = models.ImageField(upload_to='images/user/profile/', null=True, blank=True)
     user_bio = models.TextField(null=True,blank=True, max_length=255)
@@ -19,7 +19,8 @@ class Profile(models.Model):
     mobile = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.slug
+        return str(self.user)
+
 
     def get_absolute_url(self):
         return reverse('accounts:user_post_list', kwargs={'pk' : self.user.pk})

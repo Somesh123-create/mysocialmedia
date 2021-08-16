@@ -2,6 +2,25 @@
 
 {% block content %}
 
-<h1 align=center>Group Update..</h1>
+<div class='container mt-5'>
+  {% if user.is_authenticated %}
+  <form class="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 35rem;">
+      <div class="card-header">
+        Update Group
+      </div>
+      <div class="card-body">
+        {{ form.as_p }}
+      </div>
+      <div class="card-footer text-muted">
+         <button type="submit" class="btn btn-primary mb-3" name="button">Upadte Group</button>
+      </div>
+    </div>
+  </form>
+  {% else %}
+    you're not allowed here...
+  {% endif %}
+</div>
 
 {% endblock %}

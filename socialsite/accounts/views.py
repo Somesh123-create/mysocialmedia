@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.views import PasswordChangeView
@@ -14,7 +15,6 @@ class UserPostView(DetailView):
     template_name = 'registration/profile.html'
     model = User
     context_object_name = 'my_profile'
-    ordering = ['-post_created']
 
 
 class SignUpView(CreateView):
@@ -29,12 +29,6 @@ class ChangePasswordView(PasswordChangeView):
     success_url = reverse_lazy('groups:group_list')
 
 
-class UserProfileUpdateView(UpdateView):
-    form_class = UserProfileUpdateForm
-    template_name = 'registration/profile_update.html'
-    model = Profile
-
-
 class UserSettingsEditView(UpdateView):
     form_class = UserSettingsEditForm
     template_name = 'registration/edit_settings.html'
@@ -42,6 +36,12 @@ class UserSettingsEditView(UpdateView):
 
     def get_object(self):
         return self.request.user
+
+class UserProfileUpdateView(UpdateView):
+    form_class = UserProfileUpdateForm
+    template_name = 'registration/profile_update.html'
+    model = Profile
+
 
 class ProfileCreateView(CreateView):
     form_class = UserProfileCreateForm
