@@ -60,14 +60,14 @@
                               <div class="card-body">
                                 <h5 class="card-title">{{ group.groups_name }}</h5>
                                 <p class="card-text">20K members • 90 posts a day</p>
-                                <p class="card-text">{{ group.group_tag }}..</p>
+                                <p class="card-text"></p>
 
                                 {% if user in group.members.all %}
                                   <a href="{% url 'groups:leave_group' group.slug %}" class="col-12 btn btn-secondary">Leave Group</a>
                                 {% else %}
                                   <a href="{% url 'groups:join_group' group.slug %}" class="col-12 btn btn-secondary">Join Group</a>
                                 {% endif %}
-                              
+
                               </div>
                             </div>
                         </div>

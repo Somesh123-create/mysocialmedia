@@ -7,4 +7,5 @@ urlpatterns = [
     path('comments_list/', CommentListView.as_view(), name='comments_list'),
 
 
+
 ]

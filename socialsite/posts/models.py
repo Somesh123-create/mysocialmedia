@@ -12,9 +12,16 @@ class Posts(models.Model):
     post_body = models.TextField(blank=True,null=True)
     post_image = models.ImageField(upload_to='images/posts/', blank=True, null=True)
     post_created = models.DateTimeField(auto_now_add=True)
+    post_likes = models.ManyToManyField(User, related_name='post_likes')
 
     def __str__(self):
-        return str(self.user) + ' |' + str(self.groups_name)
+        return str(self.groups_name)+ " | "+ str(self.user.username)
+
+    def total_likes(self):
+        return self.post_likes.count()
+
+    def total_comments(self):
+        return self.comments.count()
 
     def post_name(self):
         return self.post_body[:1000]

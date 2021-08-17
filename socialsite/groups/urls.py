@@ -12,4 +12,5 @@ urlpatterns = [
     path('join/<slug>/', Joingroup.as_view(), name='join_group'),
     path('leave/<slug>/', LeaveGroup.as_view(), name='leave_group'),
 
+
 ]

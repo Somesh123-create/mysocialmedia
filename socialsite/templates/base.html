@@ -23,36 +23,53 @@
         <div class="d-flex justify-content-start">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'posts:post_list' %}">Feeds</a>
+              </li>
               {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {% if user.profile.profile_pic %}
-                      <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" alt="..." height="50" width="50">
-                    {% endif %}
-                        {{ user.first_name }}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if user.profile.profile_pic %}
+                    <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" alt="..." height="25" width="25">
+                  {% endif %}
+                      {{ user.first_name }}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a class="dropdown-item" href="{% url 'accounts:user_post_list' user.id %}">
+                      {% if user.profile.profile_pic %}
+                        <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" alt="..." height="25" width="25">
+                      {% else %}
+                        <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="25" width="25">
+                      {% endif %}
+                      {{ user.first_name }} {{ user.last_name }}
                     </a>
-                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li><a class="dropdown-item" href="{% url 'accounts:user_post_list' user.id %}">
-                          <button type="button" class="btn btn-light">
-                            {% if user.profile.profile_pic %}
-                              <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" alt="..." height="25" width="25">
-                            {% else %}
-                              <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="25" width="25">
-                            {% endif %}
-                            {{ user.first_name }} {{ user.last_name }}
-                          </button>
-                        </a>
-                        <li><a class="dropdown-item" href="{% url 'accounts:user_post_list' user.id %}">Profile</a></li>
-                        <li><a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a></li>
-                        <li><a class="dropdown-item" href="{% url 'accounts:user_settings' %}">Settings</a></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                      </li>
-                 </ul>
-            </li>
-            {% else %}
-              <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-              <li><a class="dropdown-item" href="{% url 'accounts:sign_up' %}">Register</a></li>
-            {% endif %}
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'accounts:user_post_list' user.id %}">Profile</a>
+                  </li>
+                    <li>
+                      <a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{% url 'accounts:user_settings' %}">Settings</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                </ul>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:sign_up' %}">SignUp</a>
+                </li>
+              {% endif %}
             </ul>
           </div>
         </div>

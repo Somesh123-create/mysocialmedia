@@ -125,6 +125,41 @@ class UserProfileCreateForm(forms.ModelForm):
         'type': 'hidden',
     }))
 
+    user_bio = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control input-group-text',
+        'type':'text'
+    }), label='User Bio', required=False)
+
+    designation = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control input-group-text',
+        'type':'text'
+    }), label='Designation')
+
+    education = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control input-group-text',
+        'type':'text'
+    }), label='Education')
+
+    marital_status = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control input-group-text',
+        'type':'text'
+    }), label='Marital Status')
+
+    hobbies = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control input-group-text',
+        'type':'text'
+    }), label='Hobbies')
+
+    location = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control input-group-text',
+        'type':'text'
+    }), label='Location')
+
+    mobile = forms.IntegerField(widget=forms.TextInput(attrs={
+        'class': 'form-control input-group-text',
+        'type':'text'
+    }), label='Mobile')
+
 
 
 class UserProfileUpdateForm(forms.ModelForm):

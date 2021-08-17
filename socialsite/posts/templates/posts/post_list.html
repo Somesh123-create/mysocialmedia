@@ -10,7 +10,7 @@
               <div class='col-lg-12 col-sm-12 col-md-6 mt-5 shadow-lg p-3 mb-5 bg-body rounded shadow-lg p-3 mb-5 bg-body rounded'>
                 {% if user.is_authenticated %}
                   <div class='mb-3' align="center">
-                      <button type="button" class="btn btn-outline-primary d-flex justify-content-center"><i class="material-icons d-flex justify-content-center">add_circle</i> Create Group</button>
+                      <a class="btn btn-outline-primary d-flex justify-content-center" href="{% url 'groups:create_group' %}"><i class="material-icons d-flex justify-content-center">add_circle</i> Create Group</a>
                   </div>
                 {% endif %}
                   <div class='mb-3'>
@@ -47,7 +47,7 @@
         </div>
     </div>
 {% if posts %}
-    <div class='col-lg-6 col-sm-12 col-md-6 mt-5'>
+    <div class='col-lg-8 col-sm-12 col-md-6 mt-5'>
         <section>
           <!-- posts list starts -->
             {% for post in posts %}
@@ -85,30 +85,46 @@
                         </div>
                     </div>
                   <hr>
+                  <a href="{% url 'posts:post_detail' post.id %}">
                   <div class="card-body">
-                    <p class="card-text">{{ post.post_body }}</p>
+                    <h4><p class="card-text">{{ post.post_body }}</p></h4>
                   </div>
+                  </a>
                 </div>
                 <div class="card-body pb-2">
                   <div class="card mb-3">
+                    {% if post.post_image %}
                     <img src="{{ post.post_image.url }}" class="card-img-top" alt="...">
+                    {% endif %}
                   </div>
 
                   <div class="card-body pb-0">
                     <div class="row">
                       <div class="col-6">
-                        <p>Likes- 1</p>
+                        <p>Likes- {{ post.total_likes }}</p>
                       </div>
                       <div class="col-6 d-flex justify-content-end">
-                        <p>Comments- 10</p>
+                        <p>Comments- {{ post.total_comments }}</p>
                       </div>
                     </div>
                   </div>
                 </div>
+                {% if user.is_authenticated %}
                 <div class="card-footer text-muted">
                     <div class="row">
                         <div class="col-4">
-                            <i class="material-icons d-flex justify-content-start">thumb_up</i>
+                          <form class="" action="{% url 'posts:like_post' post.pk %}" method="post">
+                            {% csrf_token %}
+                            {% if user in post.post_likes.all %}
+                              <button type="submit" name="post_id" value="{{ post.id }}">
+                                <i class="material-icons d-flex justify-content-start">thumb_down</i>
+                              </button>
+                            {% else %}
+                              <button type="submit" name="post_id" value="{{ post.id }}">
+                                <i class="material-icons d-flex justify-content-start">thumb_up</i>
+                              </button>
+                            {% endif %}
+                          </form>
                         </div>
                         <div class="col-4">
                             <i class="material-icons d-flex justify-content-center">comment</i>
@@ -119,10 +135,15 @@
                     </div>
                 </div>
                 <div class="form-floating mt-4">
-                  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                  <label for="floatingTextarea">Write a public comment...</label>
+                  <div class="form-floating mt-4">
+                          <form class="" action="{% url 'posts:comment_create' post.id %}" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" name="button" class='btn btn-primary' >Comment</button>
+                          </form>
+                  </div>
                 </div>
-
+                {% endif %}
                 <!-- comment section -->
                 {% for comment in post.comments.all %}
                   <div class="d-flex justify-content-start comment-items">
