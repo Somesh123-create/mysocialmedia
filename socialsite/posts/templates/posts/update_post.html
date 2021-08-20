@@ -1,8 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<h1 align=center>Update post...</h1>
-
+<div class='container mt-5'>
+  {% if user.is_authenticated %}
+  {% if user.id == posts.user.id %}
+    <form class=""  method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 39rem;">
+        <div class="card-header">
+          Post Create
+        </div>
+        <div class="card-body">
+           <div class="mb-3 row">
+              {{ form.as_p }}
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+           <button type="submit" class="btn btn-primary mb-3">Post</button>
+        </div>
+      </div>
+    </form>
+  {% else %}
+    You're not right user..! (and you know it....)
+  {% endif %}
+  {% else %}
+    you're not allowed here...
+  {% endif%}
+</div>
 
 {% endblock %}

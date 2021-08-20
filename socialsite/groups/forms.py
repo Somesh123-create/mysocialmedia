@@ -63,11 +63,8 @@ class GroupUpdateForm(forms.ModelForm):
 class GroupPostCreateForm(forms.ModelForm):
     class Meta:
         model = Posts
-        fields = ('user', 'post_body', 'post_image')
+        fields = ('post_body', 'post_image')
 
-        widgets = {
-                'user': forms.TextInput(attrs={'class': 'form-control', 'value':'', 'id':'groupuser', 'type': 'hidden'}),
-            }
 
     post_body = forms.CharField(widget=forms.Textarea(attrs={
         'class': 'form-control input-group-text',

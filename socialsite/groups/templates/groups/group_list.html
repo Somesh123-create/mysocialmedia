@@ -29,7 +29,7 @@
                           <p class="mb-1">{{ group.about_group }}</p>
                             <div class="row">
                                 <div class="col-6">
-                                    <span class="badge bg-primary rounded-pill">14</span>
+                                    <span class="badge bg-dark rounded-pill">{{group.total_post}}- Posts</span>
                                 </div>
                                  <div class="col-6">
                                     <small class="d-flex justify-content-end">3 days ago</small>
@@ -49,8 +49,8 @@
                 <div class="card group_list">
                     <div class=row>
                       {% for group in groups %}
-                        <div class="col-lg-6 col-sm-12 col-md-12 mt-4">
-                            <div class="card mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 25rem;">
+                        <div class="col-lg-4 col-sm-12 col-md-12 mt-4">
+                            <div class="card mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 20rem;">
                               <a href="{% url 'groups:group_detail' group.slug %}" class='group_name_bar' aria-current="true">
                               {% if group.cover_pic %}
                               <img src="{{ group.cover_pic.url }}" class="card-img-top" alt="..." height="250" width="250"></a>
@@ -58,7 +58,7 @@
                                 <img src="{% static 'profile_ex/coverprofile.jpg' %}" class="card-img-top" alt="..." height="250" width="250">
                               {% endif %}
                               <div class="card-body">
-                                <h5 class="card-title">{{ group.groups_name }}</h5>
+                                <p class="card-text"><strong>{{ group.groups_name }}</strong></p>
                                 <p class="card-text">20K members • 90 posts a day</p>
                                 <p class="card-text"></p>
 

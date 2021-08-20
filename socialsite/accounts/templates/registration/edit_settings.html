@@ -6,7 +6,7 @@
 <div class='container mt-5'>
   <form class="" method="post">
     {% csrf_token %}
-    <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 35rem;">
+    <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded col-lg-6">
       <div class="card-header">
         Edit Settings
       </div>
@@ -21,5 +21,9 @@
 </div>
 </br>
 </br>
+<script>
+  document.getElementsByClassName('helptext')[0].style.visibility = 'hidden';
+  document.getElementById("id_password").style.display = "none";
+</script>
 
 {% endblock %}

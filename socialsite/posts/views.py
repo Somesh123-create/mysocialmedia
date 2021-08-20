@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, TemplateView, CreateView, RedirectView, DetailView
+from django.views.generic import ListView, TemplateView, CreateView, RedirectView, DetailView, UpdateView, DeleteView
 from django.urls import reverse
 from .models import Posts
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,7 +9,9 @@ from .forms import PostCreateForm
 from braces.views import SelectRelatedMixin
 from django.http import HttpResponseRedirect
 import datetime
+from django.urls import reverse_lazy, reverse
 from comments.forms import CommentCreateForm
+from groups.forms import GroupPostCreateForm
 
 # Create your views here.
 
@@ -38,7 +40,17 @@ class PostDeatailsView(DetailView):
         context['form'] = CommentCreateForm()
         return context
 
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = GroupPostCreateForm
+    model = Posts
+    login_url = '/account/login/'
+    template_name = 'posts/update_post.html'
 
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Posts
+    login_url = '/account/login/'
+    template_name = 'posts/delete_post.html'
+    success_url = reverse_lazy('posts:post_list')
 
 
 class LikeView(LoginRequiredMixin, RedirectView):

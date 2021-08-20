@@ -30,6 +30,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ groups.groups_name }}</h5>
           <p class="card-text">Public group -- {{ groups.total_members }} members.</p>
+          <p class="card-text">Total Posts -- {{ groups.total_post }}</p>
           <div class="d-flex justify-content-end">
             {% if user.is_authenticated %}
               <div class="btn-group">
@@ -39,6 +40,7 @@
                 <ul class="dropdown-menu">
                   {% if groups.user.id == user.id %}
                     <li><a class="dropdown-item" href="{% url 'groups:group_update' groups.slug %}">Upadate Group</a></li>
+                    <li><a class="dropdown-item" href="{% url 'groups:group_delete' groups.slug %}">Delete Group</a></li>
                   {% endif %}
                   {% if user in groups.members.all %}
                     <li><a class="dropdown-item" href="{% url 'groups:leave_group' groups.slug %}">Leave Group</a></li>
@@ -84,7 +86,7 @@
             <p>No Posts Yet.....</p>
             {% else %}
             {% for post in groups.posts.all %}
-            <div class="card shadow-lg p-3 mb-5 bg-body rounded mt-4">
+            <div class="card shadow-lg p-3 mb-5 bg-body rounded mt-4 col-8 mx-auto">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
@@ -113,18 +115,29 @@
                                       </ul>
                                   </div>
                                 </div>
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                  </button>
+                                  <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'posts:update_post' post.id %}">Upadte</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'posts:delete_post' post.id %}">Delete</a></li>
+                                  </ul>
+                                </div>
                               </nav>
                         </div>
                     </div>
                   <hr>
+                  <a href="{% url 'posts:post_detail' post.id %}">
                   <div class="card-body">
                     <p class="card-text">{{ post.post_body }}</p>
                   </div>
+                </a>
                 </div>
                 <div class="card-body pb-2">
                   {% if post.post_image %}
                   <div class="card mb-3">
-                    <img src="{{ post.post_image.url }}" class="card-img-top" alt="...">
+                    <img src="{{ post.post_image.url }}" class="card-img-top" alt="..." height="500">
                   </div>
                   {% endif %}
 
@@ -157,31 +170,38 @@
                             </form>
                           </div>
                           <div class="col-4">
-                              <i class="material-icons d-flex justify-content-center">comment</i>
+
                           </div>
                           <div class="col-4">
-                              <i class="material-icons d-flex justify-content-end">ios_share</i>
+                              <i class="material-icons d-flex justify-content-center">comment</i>
                           </div>
                       </div>
                   </div>
                 {% endif %}
-                {% if user.is_authenticated %}
-                  <div class="form-floating mt-4">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                    <label for="floatingTextarea">Write a public comment...</label>
-                  </div>
-                {% endif %}
-                <hr>
+
                 <!-- comment section -->
-                {% for comment in post.comments.all  %}
+                {% for comment in post.comments.all|slice:":2"  %}
                   <div class="d-flex justify-content-start comment-items">
                     {% if comment.user.profile.profile_pic %}
                       <img src="{{ comment.user.profile.profile_pic.url }}" class="rounded-circle" alt="..." width='60' height='60'>
                       {% else %}
                         <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." width='60' height='60'>
                       {% endif %}
-                      <div class="ms-2 me-auto shadow-lg p-3 mb-5 bg-body rounded-pill mt-5">
-                        <div class="fw-bold">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
+                      <div class="ms-2 me-auto  p-3 bg-body rounded-pill">
+                        <div class="fw-bold">{{ comment.user.first_name }} {{ comment.user.last_name }}
+                          {% if user.id == comment.user.id %}
+                           --
+                          <div class="btn-group dropend">
+                            <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                              <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="{% url 'comments:comments_edit' comment.id %}">Edit</a></li>
+                              <li><a class="dropdown-item" href="{% url 'comments:comments_delete' comment.id %}">Delete</a></li>
+                            </ul>
+                          </div>
+                          {% endif %}
+                        </div>
                         {{ comment.body }}
                         <div class="ms-3 me-auto  mb-1">
                           <span>Like . Reply . {{ comment.date_created }}</span>
@@ -189,6 +209,57 @@
                       </div>
                   </div>
                   {% endfor %}
+                  <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                          {% for comment in post.comments.all|slice:"3:" %}
+                            <div class="d-flex justify-content-start comment-items">
+                                {% if comment.user.profile.profile_pic %}
+                                  <img src="{{ comment.user.profile.profile_pic.url }}" class="rounded-circle" alt="..." width='60' height='60'>
+                                {% else %}
+                                  <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." height="70" width="70">
+                                {% endif %}
+                                <div class="ms-2 me-auto  p-3 bg-body rounded-pill">
+                                  <div class="fw-bold">{{ comment.user.first_name }} {{ comment.user.last_name }}
+                                    {% if user.id == comment.user.id %}
+                                     --
+                                    <div class="btn-group dropend">
+                                      <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                      </button>
+                                      <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{% url 'comments:comments_edit' comment.id %}">Edit</a></li>
+                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                      </ul>
+                                    </div>
+                                    {% endif %}
+                                  </div>
+                                  {{ comment.body }}
+                                  <div class="ms-3 me-auto  mb-1">
+                                    <span> {{ comment.date_created }}</span>
+                                  </div>
+                                </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                          View more comments
+                        </button>
+                      </h2>
+                    </div>
+                  </div>
+                  {% if user.is_authenticated %}
+                  <div class="form-floating mt-4">
+                          <form class="" action="{% url 'posts:comment_create' post.id %}" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" name="button" class='btn btn-primary' >Comment</button>
+                          </form>
+                  </div>
+                  {% endif %}
                 <!-- comment section ends -->
             </div>
             {% endfor %}

@@ -12,7 +12,21 @@ class CommentCreateForm(forms.ModelForm):
         'class': 'form-control input-group-text',
         'type':'text',
         'height':15,
-        'rows':4,
+        'rows':2,
         'cols':15,
         'placeholder': 'Enter the comment..'
-    }), label='Comment')
+    }), label='')
+
+class CommentUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = ('post_name','user', 'body',)
+
+    body = forms.CharField(widget=forms.Textarea(attrs={
+        'class': 'form-control input-group-text',
+        'type':'text',
+        'height':15,
+        'rows':2,
+        'cols':15,
+        'placeholder': 'Enter the comment..'
+    }), label='')

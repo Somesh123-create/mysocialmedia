@@ -5,10 +5,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, RedirectView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, RedirectView, DeleteView
 from .models import Groups, GroupMember
 from posts.models import Posts
 from .forms import GroupCreateForm, GroupUpdateForm, GroupPostCreateForm
+from comments.forms import CommentCreateForm
 
 # Create your views here.
 
@@ -41,7 +43,11 @@ class GroupDetailView(DetailView):
     context_object_name = 'groups'
     template_name = 'groups/group_details.html'
 
-
+    def get_context_data(self, **kwargs):
+        all_groups = Groups.objects.all()
+        context = super().get_context_data(**kwargs)
+        context['form'] = CommentCreateForm()
+        return context
 
 
 class GroupUpdateView(LoginRequiredMixin, UpdateView):
@@ -49,6 +55,13 @@ class GroupUpdateView(LoginRequiredMixin, UpdateView):
     form_class = GroupUpdateForm
     login_url = '/account/login/'
     template_name = 'groups/update_group.html'
+
+
+class GroupDeleteView(LoginRequiredMixin, DeleteView):
+    model = Groups
+    login_url = '/account/login/'
+    template_name = 'groups/delete_group.html'
+    success_url = reverse_lazy('groups:group_list')
 
 
 class Joingroup(LoginRequiredMixin, RedirectView):
@@ -104,6 +117,7 @@ class CreateGroupPost(LoginRequiredMixin, CreateView):
         slug = self.kwargs['slug']
         group_slug = Groups.objects.get(slug=slug)
         self.my_post = form.save(commit=False)
+        form.instance.user = self.request.user
         form.instance.groups_name_id = group_slug.id
         self.my_post.save()
         return super().form_valid(form)

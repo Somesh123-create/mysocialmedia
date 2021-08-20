@@ -23,6 +23,9 @@ class Groups(models.Model):
     def total_members(self):
         return self.members.count()
 
+    def total_post(self):
+        return self.posts.count()
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.groups_name)
         super().save(*args, **kwargs)
@@ -31,7 +34,7 @@ class Groups(models.Model):
         return reverse("groups:group_detail", kwargs={"slug": self.slug})
 
     class Meta:
-        ordering = ["groups_name"]
+        ordering = ["-created_date"]
 
 
 

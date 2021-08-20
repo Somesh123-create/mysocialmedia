@@ -1,7 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class='container mt-5'>
 
-<h1 align=center>Comment Delete..</h1>
-
+{% if user.is_authenticated %}
+    {% if user.id == comments.user.id %}
+    <form class="" method="post">
+      {% csrf_token %}
+      <div class="card text-center mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 39rem;">
+        <div class="card-header">
+          Comment Delete
+        </div>
+        <div class="card-body">
+           <div class="mb-3 row">
+             <h3>{{ comments.body }}</h3>
+              <strong>Are you sure?</strong><br/><br/>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+           <button type="submit" class="btn btn-danger mb-3">Delete Comment</button>
+        </div>
+      </div>
+    </form>
+    {% else %}
+        You're not right user..! (and you know it....)
+    {% endif %}
+{% else %}
+You're not allowed here! (and you know it....)
+{% endif %}
+</div>
 {% endblock %}

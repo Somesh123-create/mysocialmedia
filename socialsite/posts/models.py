@@ -24,7 +24,7 @@ class Posts(models.Model):
         return self.comments.count()
 
     def post_name(self):
-        return self.post_body[:1000]
+        return self.post_body[:100]
 
     def get_absolute_url(self):
         return reverse("groups:group_detail", kwargs={"slug": self.groups_name.slug})
