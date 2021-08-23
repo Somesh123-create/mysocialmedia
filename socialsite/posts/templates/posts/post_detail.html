@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %} <title>post details</title> {% endblock %}
 {% block content %}
-
+</br></br>
 <div class="container mt-4">
   <div class="card shadow-lg p-3 mb-5 bg-body rounded col-10 mx-auto">
       <div class="card-header">
@@ -33,6 +34,7 @@
                             </ul>
                         </div>
                       </div>
+                      {% if user.id == post.user.id %}
                       <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                           <span class="visually-hidden">Toggle Dropdown</span>
@@ -42,6 +44,7 @@
                           <li><a class="dropdown-item" href="{% url 'posts:delete_post' post.id %}">Delete</a></li>
                         </ul>
                       </div>
+                      {% endif %}
                     </nav>
               </div>
           </div>
@@ -117,14 +120,61 @@
                 {% endif %}
               </div>
               {{ comment.body }}
+              <div class="ms-3 me-auto  mb-1">
+                <span> {{ comment.date_created }}</span>
+              </div>
             </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-{{ comment.id }}" aria-expanded="false" aria-controls="flush-collapseOne">
+                    {{ comment.total_reply }} Reply
+                  </button>
+                </h2>
+                <div id="flush-{{ comment.id }}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                  <div class="accordion-body">
+                    {% for reply in comment.commentreply.all %}
+                    <div class="mt-2 mb-1">
+                      <div class="card-body">
+                        {% if reply.user.profile.profile_pic %}
+                          <img src="{{ reply.user.profile.profile_pic.url }}" class="rounded-circle" alt="..." width='40' height='40'>
+                        {% else %}
+                          <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." width='40' height='40'>
+                        {% endif %}
+                        <strong class="card-title">{{ reply.user.first_name }} {{ reply.user.last_name }}</strong>
+                        <div class="ms-5 me-auto  mb-1">
+                          <span> {{ reply.replay }}</span><br>
+                          <span> {{ reply.date_created }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    <div class="">
+                      <form class="" action="{% url 'comments:comment_reply' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="comment" value="{{ comment.id }}">
+                        <div class="mb-3">
+                          <label for="exampleFormControlTextarea1" class="form-label"></label>
+                          <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh'>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
+                        </div>
+                          <button type="submit" class="btn btn-primary">Reply</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       {% endfor %}
       <div class="accordion accordion-flush" id="accordionFlushExample">
         <div class="accordion-item">
           <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
             <div class="accordion-body">
-              {% for comment in post.comments.all|slice:"3:" %}
+              {% for comment in post.comments.all|slice:"2:" %}
                 <div class="d-flex justify-content-start comment-items">
                     {% if comment.user.profile.profile_pic %}
                       <img src="{{ comment.user.profile.profile_pic.url }}" class="rounded-circle" alt="..." width='60' height='60'>
@@ -152,13 +202,59 @@
                       </div>
                     </div>
                 </div>
+                <div class="row justify-content-center">
+                  <div class="col-8">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-{{ comment.id }}" aria-expanded="false" aria-controls="flush-collapseOne">
+                              {{ comment.total_reply }} Reply
+                          </button>
+                        </h2>
+                        <div id="flush-{{ comment.id }}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            {% for reply in comment.commentreply.all %}
+                            <div class="mt-2 mb-1">
+                              <div class="card-body">
+                                {% if reply.user.profile.profile_pic %}
+                                  <img src="{{ reply.user.profile.profile_pic.url }}" class="rounded-circle" alt="..." width='40' height='40'>
+                                {% else %}
+                                  <img src="{% static 'profile_ex/dummy_profile_pic.jpg' %}" class="flex-shrink-0 me-3 rounded-circle" alt="..." width='40' height='40'>
+                                {% endif %}
+                                <strong class="card-title">{{ reply.user.first_name }} {{ reply.user.last_name }}</strong>
+                                <div class="ms-5 me-auto  mb-1">
+                                  <span> {{ reply.replay }}</span><br>
+                                  <span> {{ reply.date_created }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            {% endfor %}
+                            <div class="">
+                              <form class="" action="{% url 'comments:comment_reply' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="comment" value="{{ comment.id }}">
+                                <div class="mb-3">
+                                  <label for="exampleFormControlTextarea1" class="form-label"></label>
+                                  <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh'>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
+                                </div>
+                                  <button type="submit" class="btn btn-primary">Reply</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               {% endfor %}
             </div>
           </div>
           <h2 class="accordion-header" id="flush-headingOne">
+            {% if post.total_comments > 2 %}
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
               View more comments
             </button>
+            {% endif %}
           </h2>
         </div>
       </div>

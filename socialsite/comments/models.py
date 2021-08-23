@@ -13,13 +13,30 @@ class Comments(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.user) + '|' + self.body
+        return str(self.user) + '|' + str(self.body)
+
+    def total_reply(self):
+        return self.commentreply.count()
 
     class Meta:
         ordering = ["-date_created"]
 
     def get_absolute_url(self):
         return reverse("posts:post_detail", kwargs={"pk": self.post_name.pk})
+
+
+class CommentReply(models.Model):
+    comment = models.ForeignKey(Comments, on_delete=models.CASCADE, related_name='commentreply')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    replay = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.replay
+
+    def get_absolute_url(self):
+        return reverse("posts:post_detail", kwargs={"pk": self.comment.post_name.pk})
+
 
 
 

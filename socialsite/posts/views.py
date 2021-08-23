@@ -10,7 +10,7 @@ from braces.views import SelectRelatedMixin
 from django.http import HttpResponseRedirect
 import datetime
 from django.urls import reverse_lazy, reverse
-from comments.forms import CommentCreateForm
+from comments.forms import CommentCreateForm, CommentReplyForm
 from groups.forms import GroupPostCreateForm
 
 # Create your views here.
@@ -26,6 +26,7 @@ class PostListView(ListView):
         context = super().get_context_data(**kwargs)
         context['groups'] = all_groups
         context['form'] = CommentCreateForm()
+        context['commreply_form'] = CommentReplyForm()
         return context
 
 

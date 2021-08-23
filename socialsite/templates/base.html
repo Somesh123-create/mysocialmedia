@@ -11,12 +11,24 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <title>Hello, world!</title>
+    {% block title %} <title>Social Media Site</title> {% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #EDEDED;">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #EDEDED;">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'groups:group_list' %}">Social Media Site</a>
+        <a href="{% url 'groups:group_list' %}">
+        <img src="{% static 'logo/smlogo.png' %}" alt="" width="50" height="50" class="d-inline-block align-text-top">
+        </a>
+        <a class="navbar-brand" href="{% url 'groups:group_list' %}">
+          Social Site
+        </a>
+        <div class="container">
+          <form class="d-flex" action='{% url 'groups:search' %}' method='post'>
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" name="query" placeholder="Search Groups" aria-label="Search" style='width:45%'>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -76,10 +88,13 @@
       </div>
     </nav>
 
+    <div class="container">
+      {% block content %}
 
-        {% block content %}
+      {% endblock %}
+    </div>
 
-        {% endblock %}
+
 
 
 

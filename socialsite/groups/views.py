@@ -13,6 +13,18 @@ from .forms import GroupCreateForm, GroupUpdateForm, GroupPostCreateForm
 from comments.forms import CommentCreateForm
 
 # Create your views here.
+def search_view(request):
+    if request.method == 'POST':
+        searched = request.POST['query']
+        group_obj = Groups.objects.filter(groups_name__contains = searched)
+    context = {
+        'groups' : group_obj,
+        'not_match': searched
+    }
+    return render(request, 'groups/search.html', context=context)
+
+
+
 
 class GroupListView(ListView):
     template_name = 'groups/group_list.html'

@@ -15,7 +15,7 @@ class Posts(models.Model):
     post_likes = models.ManyToManyField(User, related_name='post_likes')
 
     def __str__(self):
-        return str(self.groups_name)+ " | "+ str(self.user.username)
+        return str(self.groups_name)+ " | "+ str(self.post_body)
 
     def total_likes(self):
         return self.post_likes.count()

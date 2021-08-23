@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+{% block title %} <title>post update</title> {% endblock %}
 
 {% block content %}
+
+</br></br>
 <div class='container mt-5'>
   {% if user.is_authenticated %}
   {% if user.id == posts.user.id %}

@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
-from .models import Comments
+from .models import Comments, CommentReply
 from django.urls import reverse_lazy, reverse
 import datetime
 from posts.models import Posts
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import CommentCreateForm, CommentUpdateForm
+from .forms import CommentCreateForm, CommentUpdateForm, CommentReplyForm
 # Create your views here.
 
 class CommentListView(ListView):
@@ -34,8 +34,20 @@ class CommentEditView(LoginRequiredMixin, UpdateView):
     template_name = 'comments/update_comments.html'
 
 
+
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
     model = Comments
     login_url = '/account/login/'
     success_url = reverse_lazy('posts:post_list')
     template_name = 'comments/delete_comments.html'
+
+
+class CommentReplayView(LoginRequiredMixin, CreateView):
+    form_class = CommentReplyForm
+    model = CommentReply
+    login_url = '/account/login/'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)

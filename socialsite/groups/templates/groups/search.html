@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+</br></br>
+<div class='container mt-5'>
+  <div class="card group_list">
+      <div class=row>
+        {% if groups %}
+        {% for group in groups %}
+          <div class="col-lg-4 col-sm-12 col-md-12 mt-4">
+              <div class="card mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 20rem;">
+                <a href="{% url 'groups:group_detail' group.slug %}" class='group_name_bar' aria-current="true">
+                {% if group.cover_pic %}
+                <img src="{{ group.cover_pic.url }}" class="card-img-top" alt="..." height="250" width="250"></a>
+                {% else %}
+                  <img src="{% static 'profile_ex/coverprofile.jpg' %}" class="card-img-top" alt="..." height="250" width="250">
+                {% endif %}
+                <div class="card-body">
+                  <p class="card-text"><strong>{{ group.groups_name }}</strong></p>
+                  <p class="card-text">20K members • 90 posts a day</p>
+                  <p class="card-text"></p>
+
+                  {% if user in group.members.all %}
+                    <a href="{% url 'groups:leave_group' group.slug %}" class="col-12 btn btn-secondary">Leave Group</a>
+                  {% else %}
+                    <a href="{% url 'groups:join_group' group.slug %}" class="col-12 btn btn-secondary">Join Group</a>
+                  {% endif %}
+
+                </div>
+              </div>
+          </div>
+        {% endfor %}
+        {% else %}
+          <h1>{{ not_match }} Did'nt Match....</h1>
+        {% endif %}
+      </div>
+  </div>
+</div>
+
+{% endblock %}

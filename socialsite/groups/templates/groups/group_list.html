@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+</br></br>
 <div class="container-fluid">
   <div class="row row-no-gutters">
     <div class="col-lg-4 col-md-6 col-sm-12">
@@ -12,10 +12,11 @@
                       <a class="btn btn-outline-primary d-flex justify-content-center" href="{% url 'groups:create_group' %}"><i class="material-icons d-flex justify-content-center">add_circle</i> Create Group</a>
                   </div>
                   <div class='mb-3'>
-                      <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search Groups" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form>
+                    <form class="d-flex" action='{% url 'groups:search' %}' method='post'>
+                      {% csrf_token %}
+                      <input class="form-control me-2" type="search" name="query" placeholder="Search Groups" aria-label="Search">
+                      <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
                   </div>
                     {% for group in groups %}
                       <div class="list-group mb-3">
@@ -29,7 +30,7 @@
                           <p class="mb-1">{{ group.about_group }}</p>
                             <div class="row">
                                 <div class="col-6">
-                                    <span class="badge bg-dark rounded-pill">{{group.total_post}}- Posts</span>
+                                    <span>{{group.total_post}}- Posts</span>
                                 </div>
                                  <div class="col-6">
                                     <small class="d-flex justify-content-end">3 days ago</small>
@@ -49,7 +50,7 @@
                 <div class="card group_list">
                     <div class=row>
                       {% for group in groups %}
-                        <div class="col-lg-4 col-sm-12 col-md-12 mt-4">
+                        <div class="col-lg-6 col-sm-12 col-md-12 mt-4">
                             <div class="card mx-auto shadow-lg p-3 mb-5 bg-body rounded" style="width: 20rem;">
                               <a href="{% url 'groups:group_detail' group.slug %}" class='group_name_bar' aria-current="true">
                               {% if group.cover_pic %}

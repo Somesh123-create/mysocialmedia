@@ -5,6 +5,7 @@ app_name = 'groups'
 
 urlpatterns = [
     path('', GroupListView.as_view(), name='group_list'),
+    path('search/', search_view, name='search'),
     path('create_group/', GroupCreateView.as_view(), name='create_group'),
     path('group_detail/<slug>', GroupDetailView.as_view(), name='group_detail'),
     path('group_detail/<slug>/create_grouppost/', CreateGroupPost.as_view(), name='create_grouppost'),
