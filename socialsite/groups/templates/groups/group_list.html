@@ -14,7 +14,7 @@
                   <div class='mb-3'>
                     <form class="d-flex" action='{% url 'groups:search' %}' method='post'>
                       {% csrf_token %}
-                      <input class="form-control me-2" type="search" name="query" placeholder="Search Groups" aria-label="Search">
+                      <input class="form-control me-2" type="search" name="query" placeholder="Search Groups" aria-label="Search" required>
                       <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                   </div>
@@ -27,7 +27,7 @@
                             {% endif %}
                                <h5 class='mx-auto'>{{ group.groups_name }}</h5>
                           </div>
-                          <p class="mb-1">{{ group.about_group }}</p>
+                          <!-- <p class="mb-1">{{ group.about_group }}</p> -->
                             <div class="row">
                                 <div class="col-6">
                                     <span>{{group.total_post}}- Posts</span>
@@ -46,7 +46,7 @@
     <div class="col-lg-8 col-sm-12 col-md-6">
       <div class="container-fluid">
         <div class="row row-no-gutters">
-            <div class='col-lg-12 col-sm-12 col-md-6 mt-5'>
+            <div class='col-lg-12 col-sm-12 col-md-6 mt-4'>
                 <div class="card group_list">
                     <div class=row>
                       {% for group in groups %}

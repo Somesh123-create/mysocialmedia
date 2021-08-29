@@ -29,8 +29,10 @@ class GroupCreateForm(forms.ModelForm):
     about_group = forms.CharField(widget=forms.Textarea(attrs={
         'class': 'form-control input-group-text',
         'type':'text',
-        'placeholder': 'Enter the about group..'
+        'placeholder': 'Enter about of group..'
     }), label='About Group')
+
+
 
 
 class GroupUpdateForm(forms.ModelForm):
@@ -64,10 +66,3 @@ class GroupPostCreateForm(forms.ModelForm):
     class Meta:
         model = Posts
         fields = ('post_body', 'post_image')
-
-
-    post_body = forms.CharField(widget=forms.Textarea(attrs={
-        'class': 'form-control input-group-text',
-        'type':'text',
-        'placeholder': 'Whats on your mind..'
-    }), label='Message')

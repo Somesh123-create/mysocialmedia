@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, UserChangeForm
 from .models import Profile
+from posts.models import UserPost
+from ckeditor.fields import RichTextField
+
 
 from django import forms
 
@@ -202,3 +205,10 @@ class UserProfileUpdateForm(forms.ModelForm):
         'class': 'form-control input-group-text',
         'type':'text'
     }), label='Mobile')
+
+
+
+class UserPostForm(forms.ModelForm):
+    class Meta:
+        model = UserPost
+        fields = ('body', 'post_img',)

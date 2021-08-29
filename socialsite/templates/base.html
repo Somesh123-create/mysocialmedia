@@ -16,19 +16,14 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #EDEDED;">
       <div class="container">
-        <a href="{% url 'groups:group_list' %}">
-        <img src="{% static 'logo/smlogo.png' %}" alt="" width="50" height="50" class="d-inline-block align-text-top">
-        </a>
         <a class="navbar-brand" href="{% url 'groups:group_list' %}">
           Social Site
         </a>
-        <div class="container">
-          <form class="d-flex" action='{% url 'groups:search' %}' method='post'>
-            {% csrf_token %}
-            <input class="form-control me-2" type="search" name="query" placeholder="Search Groups" aria-label="Search" style='width:45%'>
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
+        <form class="d-flex" action='{% url 'groups:search' %}' method='post'>
+          {% csrf_token %}
+          <input class="form-control me-2" type="search" name="query" placeholder="Search Groups" aria-label="Search" required>
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -88,7 +83,7 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container mb-4">
       {% block content %}
 
       {% endblock %}

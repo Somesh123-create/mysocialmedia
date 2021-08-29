@@ -6,7 +6,7 @@ from django import forms
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Posts
-        fields = ('groups_name', 'user', 'post_body', 'post_image')
+        fields = ('post_body', 'post_image')
 
 
 

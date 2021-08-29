@@ -2,8 +2,9 @@ from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 from django.contrib.auth.models import User
-
 # Create your models here.
+
+
 class Groups(models.Model):
     user = models.ForeignKey(User, related_name='user_group', on_delete=models.CASCADE)
     groups_name = models.CharField(max_length=150, unique=True)
@@ -11,7 +12,7 @@ class Groups(models.Model):
     cover_pic = models.ImageField(upload_to='images/groups/', null=True, blank=True)
     type_group = models.CharField(max_length=150)
     created_date = models.DateTimeField(auto_now_add=True)
-    about_group = models.TextField(max_length=600)
+    about_group = models.TextField(blank=True, null=True)
     members = models.ManyToManyField(User,through="GroupMember", related_name='all_group_memb')
 
     def __str__(self):

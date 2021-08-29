@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, TemplateView, CreateView, RedirectView, DetailView, UpdateView, DeleteView
 from django.urls import reverse
-from .models import Posts
+from .models import Posts, UserPost
 from django.contrib.auth.mixins import LoginRequiredMixin
 from groups.models import Groups
 from comments.models import Comments
@@ -9,10 +9,11 @@ from .forms import PostCreateForm
 from braces.views import SelectRelatedMixin
 from django.http import HttpResponseRedirect
 import datetime
+from braces.views import SelectRelatedMixin
 from django.urls import reverse_lazy, reverse
 from comments.forms import CommentCreateForm, CommentReplyForm
 from groups.forms import GroupPostCreateForm
-
+from accounts.forms import UserPostForm
 # Create your views here.
 
 class PostListView(ListView):
@@ -27,6 +28,7 @@ class PostListView(ListView):
         context['groups'] = all_groups
         context['form'] = CommentCreateForm()
         context['commreply_form'] = CommentReplyForm()
+        context['userpostform'] = UserPostForm()
         return context
 
 
@@ -71,3 +73,21 @@ class LikeView(LoginRequiredMixin, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         return reverse("posts:post_detail", kwargs={"pk": self.kwargs.get("pk")})
+
+class UserPostLikeView(LoginRequiredMixin, RedirectView):
+    login_url = '/account/login/'
+
+
+    def get(self, request, *args, **kwargs):
+        post = get_object_or_404(UserPost, id=request.POST.get("post_id"))
+        liked = False
+        if post.post_like.filter(id=request.user.id).exists():
+            post.post_like.remove(request.user)
+            liked = False
+        else:
+            post.post_like.add(request.user)
+            liked = True
+        return super().get(request, *args, **kwargs)
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("posts:post_list")

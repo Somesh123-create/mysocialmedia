@@ -17,7 +17,7 @@
                   <div class='mb-3'>
                     <form class="d-flex" action='{% url 'groups:search' %}' method='post'>
                       {% csrf_token %}
-                      <input class="form-control me-2" type="search" name="query" placeholder="Search Groups" aria-label="Search">
+                      <input class="form-control me-2" type="search" name="query" placeholder="Search Groups" aria-label="Search" required>
                       <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                   </div>
@@ -32,7 +32,7 @@
                             {% endif %}
                                <h5 class='mx-auto'>{{ group.groups_name }}</h5>
                           </div>
-                          <p class="mb-1">{{ group.about_group }}</p>
+                          <!-- <p class="mb-1">{{ group.about_group }}</p> -->
                             <div class="row">
                                 <div class="col-6">
                                     <span>{{group.total_post}}- Posts</span>
@@ -49,7 +49,15 @@
         </div>
     </div>
 {% if posts %}
-    <div class='col-lg-6 col-sm-12 col-md-6 mt-5'>
+    <div class='col-lg-8 col-sm-12 col-md-6 mt-5'>
+      <div class="container mx-auto" style="width: 55rem;">
+        <form class="" action="{% url 'accounts:createuser_post' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ userpostform.media }}
+          {{ userpostform.as_p }}
+          <button type="submit" class="btn btn-primary" name="button">Create Post</button>
+        </form>
+      </div></br><hr>
         <section>
           <!-- posts list starts -->
             {% for post in posts %}
@@ -71,7 +79,7 @@
                                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                       <li class="nav-item">
                                         <h5><a class="nav-link active" aria-current="page" href="{% url 'accounts:user_post_list' post.user.id %}">{{ post.user.first_name }} {{ post.user.last_name }}</a></h5>
-                                        <p class="card-text"><small class="text-muted">{{ post.post_created }}</small></p>
+                                        <p class="card-text"><small class="">{{ post.post_created|time:"H\h : i\m" }}</small></p>
                                       </li>
                                     </ul>
                                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -96,11 +104,13 @@
                         </div>
                     </div>
                   <hr>
-                  <a href="{% url 'posts:post_detail' post.id %}">
+
                   <div class="card-body">
-                    <p class="card-text">{{ post.post_name }}</p>
+                    <a href="{% url 'posts:post_detail' post.id %}">
+                    <p class="card-text">{{ post.post_body|safe|truncatewords:"50" }}
+                    </a>
+                    <a href="{% url 'posts:post_detail' post.id %}">read more</a></p>
                   </div>
-                  </a>
                 </div>
                 <div class="card-body pb-2">
                   <div class="card mb-3">
@@ -205,7 +215,7 @@
                                     <input type="hidden" name="comment" value="{{ comment.id }}">
                                     <div class="mb-3">
                                       <label for="exampleFormControlTextarea1" class="form-label"></label>
-                                      <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh'>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
+                                      <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh' required>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
                                     </div>
                                       <button type="submit" class="btn btn-primary">Reply</button>
                                   </form>
@@ -283,7 +293,7 @@
                                             <input type="hidden" name="comment" value="{{ comment.id }}">
                                             <div class="mb-3">
                                               <label for="exampleFormControlTextarea1" class="form-label"></label>
-                                              <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh'>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
+                                              <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh' required>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
                                             </div>
                                               <button type="submit" class="btn btn-primary">Reply</button>
                                           </form>

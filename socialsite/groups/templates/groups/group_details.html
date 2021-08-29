@@ -135,7 +135,7 @@
                   <hr>
                   <a href="{% url 'posts:post_detail' post.id %}">
                   <div class="card-body">
-                    <p class="card-text">{{ post.post_body }}</p>
+                    <p class="card-text">{{ post.post_body|safe }}</p>
                   </div>
                 </a>
                 </div>
@@ -152,7 +152,7 @@
                         <p>Likes- {{ post.total_likes }}</p>
                       </div>
                       <div class="col-6 d-flex justify-content-end">
-                        <p>Comments- 10</p>
+                        <p>Comments- {{ post.total_comments }}</p>
                       </div>
                     </div>
                   </div>
@@ -246,7 +246,7 @@
                                   <input type="hidden" name="comment" value="{{ comment.id }}">
                                   <div class="mb-3">
                                     <label for="exampleFormControlTextarea1" class="form-label"></label>
-                                    <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh'>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
+                                    <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh' required>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
                                   </div>
                                     <button type="submit" class="btn btn-primary">Reply</button>
                                 </form>
@@ -323,7 +323,7 @@
                                             <input type="hidden" name="comment" value="{{ comment.id }}">
                                             <div class="mb-3">
                                               <label for="exampleFormControlTextarea1" class="form-label"></label>
-                                              <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh'>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
+                                              <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh' required>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
                                             </div>
                                               <button type="submit" class="btn btn-primary">Reply</button>
                                           </form>

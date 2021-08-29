@@ -11,5 +11,6 @@ urlpatterns = [
     path('post_detail/<int:pk>', PostDeatailsView.as_view(), name='post_detail'),
     path('post_detail/<int:pk>/comment_create/', CommentCreateView.as_view(), name='comment_create'),
     path('post_feeds/like/<int:pk>', LikeView.as_view(), name='like_post'),
+    path('user_postlike/<int:pk>', UserPostLikeView.as_view(), name='user_postlike'),
 
 ]

@@ -50,7 +50,7 @@
           </div>
         <hr>
         <div class="card-body">
-          <h4><p class="card-text">{{ post.post_body }}</p></h4>
+          <h4><p class="card-text">{{ post.post_body|safe }}</p></h4>
         </div>
       </div>
       <div class="card-body pb-2">
@@ -158,7 +158,7 @@
                         <input type="hidden" name="comment" value="{{ comment.id }}">
                         <div class="mb-3">
                           <label for="exampleFormControlTextarea1" class="form-label"></label>
-                          <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh'>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
+                          <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh' required>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
                         </div>
                           <button type="submit" class="btn btn-primary">Reply</button>
                       </form>
@@ -235,7 +235,7 @@
                                 <input type="hidden" name="comment" value="{{ comment.id }}">
                                 <div class="mb-3">
                                   <label for="exampleFormControlTextarea1" class="form-label"></label>
-                                  <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh'>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
+                                  <textarea class="form-control" name="replay" cols="60" rows="1" id="exampleFormControlTextarea1" rows="3" value='somesh' required>{{ comment.user.first_name }} {{ comment.user.last_name }}:  </textarea>
                                 </div>
                                   <button type="submit" class="btn btn-primary">Reply</button>
                               </form>
