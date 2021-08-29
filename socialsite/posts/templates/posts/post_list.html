@@ -50,14 +50,14 @@
     </div>
 {% if posts %}
     <div class='col-lg-8 col-sm-12 col-md-6 mt-5'>
-      <div class="container mx-auto" style="width: 55rem;">
+      <div class="" style="width: 55rem;">
         <form class="" action="{% url 'accounts:createuser_post' %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ userpostform.media }}
           {{ userpostform.as_p }}
           <button type="submit" class="btn btn-primary" name="button">Create Post</button>
         </form>
-      </div></br><hr>
+      </div>
         <section>
           <!-- posts list starts -->
             {% for post in posts %}
